@@ -1,0 +1,95 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.logo {
+  color: #61dafb;
+  margin: 0;
+}
+
+.links a {
+  margin-left: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.links a:hover {
+  color: #61dafb;
+}
+
+.container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 5px #444;
+}
+
+.btn {
+  display: inline-block;
+  background: #61dafb;
+  color: #000;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.item-detail {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  box-shadow: 0 0 10px #333;
+}
+
+.item-count {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.item-count button {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.item-count button:hover {
+  background: #61dafb;
+  color: black;
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 2rem;
+  color: #ff6161;
+}
