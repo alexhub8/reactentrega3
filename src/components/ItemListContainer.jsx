@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
 import ItemList from "./ItemList";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 
 const ItemListContainer = () => {
   const { categoryId } = useParams();
@@ -10,16 +12,25 @@ const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    const getData = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(categoryId ? products.filter(p => p.category === categoryId) : products);
-      }, 800);
-    });
+    const fetchProducts = async () => {
+      try {
+        const colRef = collection(db, "products");
+        const snapshot = await getDocs(colRef);
+        const itemsFromDB = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const filtered = categoryId ? itemsFromDB.filter((p) => p.category === categoryId) : itemsFromDB;
+        if (itemsFromDB.length === 0) {
+          setItems(categoryId ? products.filter((p) => p.category === categoryId) : products);
+        } else {
+          setItems(filtered);
+        }
+      } catch (err) {
+        setItems(categoryId ? products.filter((p) => p.category === categoryId) : products);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    getData.then((res) => {
-      setItems(res);
-      setLoading(false);
-    });
+    fetchProducts();
   }, [categoryId]);
 
   return (

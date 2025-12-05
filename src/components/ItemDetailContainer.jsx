@@ -2,19 +2,29 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
 import ItemDetail from "./ItemDetail";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 
 const ItemDetailContainer = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    const getProduct = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(products.find((p) => p.id === id));
-      }, 800);
-    });
+    const fetchProduct = async () => {
+      try {
+        const docRef = doc(db, "products", id);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          setProduct({ id: snap.id, ...snap.data() });
+        } else {
+          setProduct(products.find((p) => p.id === id) || null);
+        }
+      } catch (err) {
+        setProduct(products.find((p) => p.id === id) || null);
+      }
+    };
 
-    getProduct.then((res) => setProduct(res));
+    fetchProduct();
   }, [id]);
 
   return (
